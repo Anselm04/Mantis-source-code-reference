@@ -1,5 +1,5 @@
 Upstream: https://github.com/google/mantis
 Revision: c23bc198063a9db706303c54d8afb305d0c055d2
 Source snapshot; upstream automation, unsupported entries, and restricted enterprise code where applicable excluded. Original licences retained. Commercial reuse requires licence audit.
-Copied files: 280
-Excluded files: 6
+Copied files: 279
+Excluded files: 7

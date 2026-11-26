@@ -1,4 +1,3 @@
-23ee91f1870a09b81221a2acd94a11b79c7ccfda  .github/dependabot.yml
 f37847f1e8b69c05f0d7bc021c84b8bcf04fe17c  .gitignore
 ddf0184251285c51efae20480c605093e7f4f4d4  .pip-tools.toml
 1e05cb086e1257c416d16715e2de10c36e7294ab  .pre-commit-config.yaml

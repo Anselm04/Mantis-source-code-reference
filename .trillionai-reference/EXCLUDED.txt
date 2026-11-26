@@ -1,3 +1,4 @@
+.github/dependabot.yml
 .github/workflows/ci.yml
 .github/workflows/mantis-knowledge-refresh.yml
 .github/workflows/mantis-pr-scan.yml
