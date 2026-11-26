@@ -1,6 +1,7 @@
 name: Import upstream reference source
 on:
   push:
+    branches: [main]
     paths: ['.github/workflows/import-upstream.yml']
   workflow_dispatch:
 permissions:
@@ -14,6 +15,8 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - name: Import pinned reference snapshot without executing upstream code
         shell: bash
         run: |
@@ -37,7 +40,7 @@ jobs:
               p = src / name
               if name in ('reference/tests/test_security_regression.py','reference/tests/test_adk_invariants.py'):
                   excluded.append(name); continue
-              if name.startswith('.github/workflows/') or mode not in ('100644','100755') or not p.is_file() or p.is_symlink():
+              if name.startswith('.github/workflows/') or name in ('.github/dependabot.yml', '.github/dependabot.yaml') or mode not in ('100644','100755') or not p.is_file() or p.is_symlink():
                   excluded.append(name); continue
               data = p.read_bytes()
               if 'Mantis' == 'Archestra' and name not in ('LICENSE.md','LICENSE_AGPL','LICENSE_ENTERPRISE'):
@@ -51,6 +54,7 @@ jobs:
               target = dst / name
               target.parent.mkdir(parents=True, exist_ok=True)
               shutil.copy2(p,target)
+              subprocess.run(['git','add','-f','--',name],check=True)
               copied.append(expected+'  '+name)
           meta = dst / '.trillionai-reference'
           meta.mkdir(exist_ok=True)
@@ -60,6 +64,8 @@ jobs:
           assert copied
           print('Copied:',len(copied),'Excluded:',len(excluded))
           PY
-          git add -A
+          git rm -f --ignore-unmatch .github/dependabot.yml .github/dependabot.yaml
+          git add -f .trillionai-reference
+          git diff --cached --quiet && exit 0
           git commit -m "Import pinned upstream reference source snapshot"
           git push origin HEAD:main
